@@ -1,0 +1,210 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <title>RealPage</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" href="/favicon.b25e58c4.ico">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.9727d3c2.png">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+
+    <link rel="stylesheet" href="styles/main.6ac0afa3.css">
+    <script src="scripts/vendor/modernizr.fbe20327.js"></script>
+    
+  </head>
+
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    
+    <div class="container">
+      <div class="header clearfix">
+        <div class="company-header pull-left">
+          <h3 class="company-header__logo"></h3>
+        </div>
+        <nav class="nav nav-pills pull-right">
+          <div role="presentation" class="nav__menu">
+            <button class="nav__menu__button" 
+                    data-toggle="dropdown" 
+                    role="button" href="#" 
+                    aria-haspopup="true" aria-expanded="false">
+                    Support
+                    <span class="caret pull-right"></span>
+            </button>
+            <ul class="nav__menu__list">
+              <li><a href="#">Support</a></li>
+              <li><a href="#">Product FAQ's</a></li>
+              <li><a href="#">Support Forum</a></li>
+              <li><a href="#">Support Services</a></li>
+            </ul>
+          </div>
+        </nav>
+
+      </div>
+
+      <div class="container-fluid signin__container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="signin__onesite">
+              <h3>Sign On to OneSite</h3>
+              <form id="signInForm">
+                <div class="form-group has-error has-feedback">
+                  <input  type="text" id="exampleUserName" name="exampleUserName"
+                          class="signin__onesite__email form-control"
+                          data-toggle="tooltip" 
+                          title="Enter your User Name."
+                          placeholder="User Name" required>
+                  <span class="icon-notice form-control-feedback hidden"></span>
+                </div>
+                <div class="form-group has-error has-feedback">
+                  <input  type="password" id="examplePassword" name="examplePassword"
+                          class="signin__onesite__password form-control error"
+                          data-toggle="tooltip" 
+                          title="Enter your password." 
+                          placeholder="Password" required>
+                  <span class="icon-notice form-control-feedback hidden"></span>
+                </div>
+                <a class="signin__onesite__forgotpass" href="/">Forgot your password?</a>
+                <button type="submit" class="signin__onesite__submit pull-right">Sign On</button>
+              </form>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <div class="with-separator">
+              <div class="separated">
+                <span>OR</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="signin__sso">
+              <h3>Single Sign On</h3>
+              <button type="submit" class="signin__sso__connect">Connect with RealPageID</button>
+              <p>Connect with RealPageID and you can sign on to all your RealPage products at once. <a href="">Find out more</a>.</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            
+            <div class="pullout opened">
+              <button id="pulloutToggle" class="pullout__button-arrow icon-angle-right"></button>
+              <h3 class="pullout__title">What City is This?</h3>
+              <div class="pullout__message">It's the location for RealWorld 2015.</div>
+              <button class="pullout__button-reveal">Reveal answer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+
+      <div class="footer">
+        <p><span class="glyphicon glyphicon-copyright-mark"></span> RealPage, Inc. All trademarks are the properties of their respective owners.</p>
+      </div>
+    </div>
+
+    
+
+
+
+    <script src="scripts/vendor.baff0332.js"></script>
+
+    
+    <script src="scripts/plugins.39fafc2b.js"></script>
+    
+
+    <script src="scripts/main.b6c3df09.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        // Call dropdowns
+        $(".nav__menu__button").mouseover(function() {
+          $(this).dropdown('toggle');
+
+        });
+
+        //Initialize error tooltips but disable
+        var errorTooltips = $("[data-toggle='tooltip']");
+        errorTooltips.tooltip({
+          html: true,
+          placement: 'bottom',
+          delay: 200,
+          animation: true,
+          template: '<div class="signin__onesite__tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+        });   
+        errorTooltips.tooltip('disable');
+
+        form = $("#signInForm");
+
+        // Show tooltips only after button is clicked
+        $("#signInForm button").click(function() {
+
+            form.validate({
+              rules: {
+                minlength: 1
+              },
+              debug: true,
+              success: "valid",
+              //Don't display plugins' default error messages
+              errorPlacement: function(error, element) { return true; },
+              showErrors: function(errorMap, errorList) {},
+              invalidHandler: function(e,v) {
+                for (var i=0; i<v.errorList.length; i++){
+                  var field = v.errorList[i].element.id;
+                  $("#" + field + '~ .icon-notice').removeClass("hidden");
+                  $("#" + field).tooltip('enable');
+                }
+              }
+            });
+        });
+
+        // Makes sure only one tooltip is open at a time
+        errorTooltips.mouseover(function(){
+          errorTooltips.not(this).tooltip('hide');
+        });
+
+        // Disable tooltips when user clicks field
+        $(".form-control").click(function(){
+          $(".icon-notice").addClass("hidden");
+          errorTooltips.tooltip('hide');
+          errorTooltips.tooltip('disable');
+        });
+
+        // Pullout controls
+        $(".pullout__button-arrow").click(function(){
+            var getState = $(".pullout").hasClass("opened");
+            console.log(getState);
+            if (getState) {
+              
+              $(this).removeClass("icon-angle-right")
+                .addClass("icon-angle-left");
+              $(".pullout").removeClass("opened")
+                .addClass("closed");
+              
+            } else {
+              $(this).removeClass("icon-angle-left")
+                .addClass("icon-angle-right");
+              $(".pullout").removeClass("closed")
+                .addClass("opened");
+            }
+        });
+      });
+    </script> 
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='https://www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-XXXXX-X');ga('send','pageview');
+    </script>
+  </body>
+</html>
